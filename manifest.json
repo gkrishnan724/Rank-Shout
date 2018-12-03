@@ -1,0 +1,29 @@
+{
+  "manifest_version":2,
+  "name":"Rank change shout",
+  "description":"",
+  "version":"1.0.0",
+  "browser_action":{
+    "default_icon":"icon.png",
+    "default_popup":"popup/popup.html"
+  },
+  "background":{
+    "persitent":false,
+    "scripts":["background/background.js"]
+  },
+  "content_scripts":[
+    
+    {
+      "matches":["https://www.codechef.com/rankings/*"],
+      "js":["content/codechef.js"]
+    }
+  ],
+  "permissions":["tabs","http://*/*","notifications"],
+  "web_accessible_resources":[
+    "forces.png",
+    "hackerank.png",
+    "icon.png",
+    "chef.png"
+  ]
+  
+}
