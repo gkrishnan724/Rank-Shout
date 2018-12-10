@@ -24,7 +24,7 @@ function handleChanges(request){
             newobject[user] = index;
         });
         newlist.forEach(function(user,index){
-            if(oldobject[user]){
+            if(oldobject[user] != undefined){
                 if(oldobject[user] > newobject[user] && mode == 'ALL'){
                     changes.push({user:user,prev:oldobject[user],new:newobject[user],mode:"rise",host:request.host});
                 }
@@ -37,7 +37,7 @@ function handleChanges(request){
             }
         });
         oldlist.forEach(function(user){
-            if(!newobject[user]){
+            if(newobject[user] == undefined){
                 changes.push({user:user,mode:"delete",host:request.host});
             }
         });
@@ -49,12 +49,13 @@ function handleChanges(request){
     };
     
     if(changes.length > 0){
+        console.log(changes);
         changes.forEach(function(item){
             let options = {type:'basic'};
             if(item.mode == "rise"){
                 let amount = item.prev - item.new;
                 options.title = item.host + " - Someone ranked up!"
-                options.message = item.user + ' ranked up ' + amount + ' ranks to take up the ' + toString(item.new + 1) + ' position!'; 
+                options.message = item.user + ' ranked up ' + amount + ' ranks to take up the ' + parseInt(item.new + 1) + ' position!'; 
             }
             else if(item.mode == "cross"){
                 let amount = item.prev - item.new;
@@ -64,24 +65,25 @@ function handleChanges(request){
             }
             else if(item.mode == "add"){
                 options.title = item.host + " - New user in ranklist!"
-                options.message = item.user + ' just joined the ranklist and took the ' + toString(item.new + 1) + ' position!';
+                options.message = item.user + ' just joined the ranklist and took the ' + parseInt(item.new + 1) + ' position!';
             }
             else if(item.mode == "delete"){
                 options.title = item.host + " - User left the ranklist!"
                 options.message = item.user + ' just left the ranklist page';
             }
 
-            if(changes.host == 'codechef'){
+            if(item.host == 'codechef'){
                 options.iconUrl = 'chef.png';
             }
-            else if(changes.host == 'codeforces'){
+            else if(item.host == 'codeforces'){
                 options.iconUrl = 'forces.png';
             }
-            else if(changes.host == 'hackerank'){
+            else if(item.host == 'hackerank'){
                 options.iconUrl = 'hackerank.png';
             }
             chrome.notifications.create(options,function(){
-                console.log('Notification sent!');
+                console.log(options);
+                console.log('Notification sent!');  
             });
         });
 
