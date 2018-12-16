@@ -12,3 +12,6 @@ clone the project, go to `chrome://extensions`, click on `load unpacked` and upl
 
 
 
+## Status
+
+Still in development, only works for codechef, more improvements need to be done.
