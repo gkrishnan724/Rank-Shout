@@ -72,13 +72,13 @@ function handleChanges(request){
                 options.message = item.user + ' just left the ranklist page';
             }
 
-            if(item.host == 'codechef'){
+            if(item.host == 'Codechef'){
                 options.iconUrl = 'chef.png';
             }
-            else if(item.host == 'codeforces'){
+            else if(item.host == 'Codeforces'){
                 options.iconUrl = 'forces.png';
             }
-            else if(item.host == 'hackerank'){
+            else if(item.host == 'Hackerank'){
                 options.iconUrl = 'hackerank.png';
             }
             chrome.notifications.create(options,function(){

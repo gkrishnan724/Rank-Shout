@@ -16,6 +16,10 @@
     {
       "matches":["https://www.codechef.com/rankings/*"],
       "js":["content/codechef.js"]
+    },
+    {
+      "matches":["*://codeforces.com/*/*/standings*"],
+      "js":["content/codeforces.js"]
     }
   ],
   "permissions":["tabs","http://*/*","notifications"],

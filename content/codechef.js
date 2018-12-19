@@ -43,7 +43,7 @@ function sendRankList(){
         }
     }
 
-    chrome.runtime.sendMessage({ranklist:ranklist,timestamp:Date.now(),url:window.location.href,host:'codechef',me:me},function(response){
+    chrome.runtime.sendMessage({ranklist:ranklist,timestamp:Date.now(),url:window.location.href,host:'Codechef',me:me},function(response){
         console.log(response);
     });
 }
