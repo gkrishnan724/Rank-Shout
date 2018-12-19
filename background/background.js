@@ -78,9 +78,6 @@ function handleChanges(request){
             else if(item.host == 'Codeforces'){
                 options.iconUrl = 'forces.png';
             }
-            else if(item.host == 'Hackerank'){
-                options.iconUrl = 'hackerank.png';
-            }
             chrome.notifications.create(options,function(){
                 console.log(options);
                 console.log('Notification sent!');  
