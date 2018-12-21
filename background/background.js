@@ -1,8 +1,8 @@
 //Used for sending notifications
-let history = {};
+let history = {}; //Object to store history for every ranklists.
 
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
-    //chrome.notifications.create({type:'basic',title:'ranklist updated!',iconUrl:chrome.extension.getURL('chef.png'),message:"New ranklist fetched"});
+    chrome.notifications.create({type:'basic',title:'ranklist updated!',iconUrl:'./chef.png',message:"New ranklist fetched"});
     sendResponse({message:'recieved!!'});
     handleChanges(request);
 });
@@ -73,10 +73,10 @@ function handleChanges(request){
             }
 
             if(item.host == 'Codechef'){
-                options.iconUrl = 'chef.png';
+                options.iconUrl = '../chef.png';
             }
             else if(item.host == 'Codeforces'){
-                options.iconUrl = 'forces.png';
+                options.iconUrl = '../forces.png';
             }
             chrome.notifications.create(options,function(){
                 console.log(options);
@@ -88,6 +88,7 @@ function handleChanges(request){
     }
 }
 
+//Print History every 30s.
 setInterval(function(){
     console.log(history);
 },30000);

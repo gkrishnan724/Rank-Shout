@@ -1,48 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
     <style>
-        html,body{
-            font-family: 'Open Sans',sans-serif;
-            font-size:14px;
-            margin:0;
-            min-height:180px;
-            padding:0;
-            width:384px;
+        html,
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            margin: 0;
+            min-height: 180px;
+            padding: 0;
+            width: 384px;
         }
-        h1{
-            font-size:22px;
+
+        a:link,
+        a:visited {
+            color: #000000;
+            outline: 0;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 22px;
             font-family: 'Menlo', monospace;
             font-weight: 400;
-            margin:0;
+            margin: 0;
         }
-        img{
-            width:30px;
+
+        h2 {
+            font-size: 16px;
         }
-        .modal-header{
-            align-items:center;
+
+        img {
+            width: 30px;
+        }
+
+        .modal-header {
+            align-items: center;
             border-bottom: 0.5px solid #dadada;
         }
-        .modal-content{
+
+        .modal-content {
             padding: 0 22px;
         }
-        .logo{
-            padding:16px;
+
+        .logo {
+            padding: 16px;
         }
-        .version{
-            color:#444;
-            font-size:18px;
+
+        .version {
+            color: #444;
+            font-size: 18px;
+        }
+
+        .modal-icons {
+            border-top: 0.5px solid #dadada;
+            height: 50px;
+            width: 100%
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-evenly;
+            padding: 10px 22px;
+        }
+
+        .flex {
+            opacity: 1;
+            transition: opacity 0.2s ease-in-out;
+            width: 100px;
+        }
+
+        .flex:hover {
+            opacity: 0.4;
+        }
+
+        .flex img {
+            width: 50%
+        }
+
+        .flex .fa {
+            font-size: 40px;
+
         }
     </style>
 </head>
+
 <body>
     <div class='modal-header'>
         <h1 class="logo">
-            Chef Notify <span class="version">(1.0.0)</span>
+           <i class="fa fa-bell"></i>&nbsp;Rank-Shout<span class="version">(1.0.0)</span>
         </h1>
     </div>
+    <div class='modal-content'>
+        <p>Get to know how your friends are doing without seeing the ranklist.</p>
+        <br>
+
+    </div>
+    <div class="modal-icons">
+
+        <div class="flex-container">
+            <div class="flex">
+                <a target="_blank" href="http://www.github.com/gkrishnan724/rank-shout" title="User-guide">
+                    <i class="fa fa-question-circle"></i>
+                </a>
+            </div>
+            <div class="flex">
+                <a target="_blank" href="http://www.github.com/gkrishnan724/rank-shout" title="GitHub Repository">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            <div class="flex">
+                <a target="_blank" href="http://www.codeforces.com" title="Codeforces">
+                    <img src="../forces.png" width="20px">
+                </a>
+            </div>
+            <div class="flex">
+                <a target="_blank" href="http://www.codechef.com" title="Codechef">
+                    <img src="../chef.png" width="20px">
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
