@@ -10,8 +10,4 @@ Rank-shout is a browser extension that observes changes in the rank-list page fo
 
 
 ## Usage guide
-
-Read Usage.md
-
-## Contribution
-Read Contribution.md
+Read [Usage.md](https://www.github.com/gkrishnan724/rank-shout/blob/master/Usage.md)

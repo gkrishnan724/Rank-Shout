@@ -1,17 +1,19 @@
 //Observes changes in ranklist for codechef and sends details to background
 
 let status; //Status for rank-shout enable/disable;
+let mode = localStorage.getItem('shoutMode');
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
 };
 
-init();
+setTimeout(init,3000);
 
 
 function init(){
     let currentUrl = new URL(window.location.href);
-
+    
+    //Set Items per page to 100
     if (currentUrl.searchParams.get('itemsPerPage')!= 100){
         currentUrl.searchParams.set('itemsPerPage','100');
         currentUrl.href = currentUrl.href.replaceAll("+","%20");
@@ -19,7 +21,7 @@ function init(){
     }
 
     //Check if rank-shout option is enabled and if contest is still running
-    let status = !(document.getElementById('ember354').children[1].innerText == 'Contest Ended'); 
+    status = !(document.getElementById('ember354').children[1].innerText == 'Contest Ended'); 
     let parent = document.getElementById('breadcrumb');
     let toggleButton = document.createElement('a'); 
     toggleButton.classList.add("button");
@@ -33,9 +35,32 @@ function init(){
             }
             else{
                 event.srcElement.innerHTML = '<i class="fa fa-bell-slash"></i>&nbsp;Rank-Shout disabled';
+                document.getElementsByClassName('topBox')[1].style.display = 'none';
             }
     
         }
+
+        let me = checkMe();
+        let formParent = document.getElementsByClassName('topBox')[0];
+        let element = document.createElement('div');
+        element.classList.add('topBox');
+        formParent.insertAdjacentElement("afterend",element);
+        if(me){
+            element.innerHTML = '<div class="topBox-item"><div class="inputBox"><i class="fa fa-bell"></i>&nbsp;<b>Mode:</b></div></div><div class="topBox-item"><div class="selectBox"><select class="ember-view ember-select select" id="shoutOption"><option value="ALL">Everyone</option><option value="ME">Only Me</option></select></div></div>';
+            if(mode){
+                document.getElementById('shoutOption').value = mode;
+            }
+            document.getElementById('shoutOption').onchange = function(event){
+                mode = event.target.value;
+                localStorage.setItem('shoutMode',mode);
+            }
+        }
+        else{
+            element.innerHTML = '<div class="topBox-item"><div class="inputBox"><i class="fa fa-bell"></i>&nbsp;<b>Mode:</b></div></div><div class="topBox-item"><div class="selectBox"><select class="ember-view ember-select select disabled" id="shoutOption" disabled><option value="ALL">Everyone</option><option value="ME">Only Me</option></select></div></div>';
+            mode = 'ALL';
+            localStorage.setItem('shoutMode','ALL');
+        }
+       
         //3s Delay
         setTimeout(sendRankList,3000);
     }
@@ -48,11 +73,7 @@ function init(){
     
     toggleButton.style.cssFloat='right';
     parent.appendChild(toggleButton);
-    // let formParent = document.getElementsByClassName('topBox')[0];
-    // let element = document.createElement('div');
-    // element.classList.add('topBox-item');
-    // element.innerHTML = '<div class="selectBox"><select class="ember-view ember-select select"><option value="ALL">ALL</option><option value="CROSS">CROSS</option></select></div>';
-    // formParent.appendChild(element);
+    
 }
 
 
@@ -74,8 +95,7 @@ function sendRankList(){
             
         }
     }
-
-    chrome.runtime.sendMessage({ranklist:ranklist,timestamp:Date.now(),url:window.location.href,host:'Codechef',me:me},function(response){
+    chrome.runtime.sendMessage({ranklist:ranklist,timestamp:Date.now(),url:window.location.href,host:'Codechef',me:me,mode:mode},function(response){
         console.log(response);
     });
     //Refresh Ranklist every minute.
@@ -84,5 +104,21 @@ function sendRankList(){
             window.location.reload();
         }   
     },60000);
+}
+
+function checkMe(){
+    let table = Array.from(document.getElementsByClassName('dataTable')[0].childNodes[2].childNodes); //Get all the tr of ranklist
+    let me;
+    for(var i=0;i<table.length;i++){
+        if(table[i].tagName == 'TR'){
+            if(table[i].className == 'me'){
+                me  = username;    
+                break;
+            }
+            
+        }
+    }
+
+    return me;
 }
 

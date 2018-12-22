@@ -1,11 +1,14 @@
 {
   "manifest_version":2,
-  "name":"Rank change shout",
+  "name":"Rank-shout",
   "description":"",
   "version":"1.0.0",
   "browser_action":{
     "default_icon":"icon.png",
     "default_popup":"popup/popup.html"
+  },
+  "icons":{
+    "128":"icon.png"
   },
   "background":{
     "persitent":false,

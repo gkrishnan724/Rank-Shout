@@ -2,7 +2,7 @@
 let history = {}; //Object to store history for every ranklists.
 
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
-    chrome.notifications.create({type:'basic',title:'ranklist updated!',iconUrl:'./chef.png',message:"New ranklist fetched"});
+    // chrome.notifications.create({type:'basic',title:'ranklist updated!',iconUrl:'./chef.png',message:"New ranklist fetched"});
     sendResponse({message:'recieved!!'});
     handleChanges(request);
 });
@@ -28,19 +28,23 @@ function handleChanges(request){
                 if(oldobject[user] > newobject[user] && mode == 'ALL'){
                     changes.push({user:user,prev:oldobject[user],new:newobject[user],mode:"rise",host:request.host});
                 }
-                if(mode == "SINGLE" && me && newobject[user] < newobject[me] && oldobject[me] < oldobject[user]){
+                if(me && newobject[user] < newobject[me] && oldobject[me] < oldobject[user]){
                     changes.push({user:user,prev:oldobject[user],new:newobject[user],me:newobject[me],mode:"cross",host:request.host});
                 }
             }
             else{
-                changes.push({user:user,new:newobject[user],mode:"add",host:request.host});
+                if(mode == 'ALL'){
+                    changes.push({user:user,new:newobject[user],mode:"add",host:request.host});
+                }
             }
         });
-        oldlist.forEach(function(user){
-            if(newobject[user] == undefined){
-                changes.push({user:user,mode:"delete",host:request.host});
-            }
-        });
+        if(mode == 'ALL'){
+            oldlist.forEach(function(user){
+                if(newobject[user] == undefined){
+                    changes.push({user:user,mode:"delete",host:request.host});
+                }
+            });
+        }
         history[request.url] = {ranklist:request.ranklist,timestamp:request.timestamp};
 
     }
@@ -50,7 +54,7 @@ function handleChanges(request){
     
     if(changes.length > 0){
         console.log(changes);
-        changes.forEach(function(item){
+        changes.forEach(function(item,index){
             let options = {type:'basic'};
             if(item.mode == "rise"){
                 let amount = item.prev - item.new;
@@ -78,15 +82,19 @@ function handleChanges(request){
             else if(item.host == 'Codeforces'){
                 options.iconUrl = '../forces.png';
             }
-            chrome.notifications.create(options,function(){
-                console.log(options);
-                console.log('Notification sent!');  
-            });
+
+            setTimeout(function(){
+                chrome.notifications.create(options,function(){
+                    console.log('Notification sent!');
+                });
+            },index*1000);
         });
 
         
     }
 }
+
+
 
 //Print History every 30s.
 setInterval(function(){
