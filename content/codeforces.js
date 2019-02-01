@@ -114,10 +114,25 @@ function checkMe(){
     
     let table = Array.from(document.getElementsByClassName('standings')[0].firstElementChild.children);
     for(var i=1;i<table.length-1;i++){
-        if(table[i].className == 'highlighted-row'){
-            me  = username;
-            break;    
+        if(table[i].tagName == 'TR'){
+            
+            //Get the username from the tr
+            if(table[i].children[1].children[0].tagName == 'IMG'){
+                var username = table[i].children[1].children[1].innerText;
+            }
+            else{
+                var username = table[i].children[1].children[0].innerText;
+            }
+             
+            
+            
+            if(table[i].className == 'highlighted-row'){
+                me  = username;
+                break;    
+            }
+            
         }
+        
     }
     return me;
 }

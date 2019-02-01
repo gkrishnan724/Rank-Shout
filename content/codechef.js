@@ -111,6 +111,7 @@ function checkMe(){
     let me;
     for(var i=0;i<table.length;i++){
         if(table[i].tagName == 'TR'){
+            let username = table[i].children[1].children[1].firstChild.children[1].innerText; //Get the username from the tr
             if(table[i].className == 'me'){
                 me  = username;    
                 break;
