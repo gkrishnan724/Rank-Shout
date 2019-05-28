@@ -1,4 +1,4 @@
-# Rank-Shout (1.0.0) <img src="https://img.icons8.com/metro/1600/appointment-reminders.png" alt="drawing" width="25" height="25"/> 
+# Rank-Shout (1.0.3) <img src="https://img.icons8.com/metro/1600/appointment-reminders.png" alt="drawing" width="25" height="25"/> 
 
 Tired of refreshing the rank-list page from time to time in an ongoing contest just to find out that there are no changes? Not a problem anymore. Rank-Shout will do the job for you.
 
