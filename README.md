@@ -8,6 +8,9 @@ Rank-shout is a browser extension that observes changes in the rank-list page fo
 
 <b>Supported-Browsers:</b> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/512px-Google_Chrome_icon_%28September_2014%29.svg.png" alt="drawing" width="20" height="20"/>  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Firefox_Logo%2C_2017.png/581px-Firefox_Logo%2C_2017.png" width="20" height="20">
 
+<b>Download Links:</b>
+Firefox: [Link](https://addons.mozilla.org/en-US/firefox/addon/rank_shout/)
+Chrome: [Link](https://chrome.google.com/webstore/detail/rank-shout/pkeblimjjkmlnamndacobgadhaknncbi)
 
 ## Usage guide
 Read [Usage.md](https://www.github.com/gkrishnan724/rank-shout/blob/master/Usage.md)

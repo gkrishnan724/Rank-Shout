@@ -2,7 +2,7 @@
   "manifest_version":2,
   "name":"Rank-shout",
   "description":"",
-  "version":"1.0.2",
+  "version":"1.0.3",
   "browser_action":{
     "default_icon":"icon.png",
     "default_popup":"popup/popup.html"
@@ -25,12 +25,6 @@
       "js":["content/codeforces.js"]
     }
   ],
-  "permissions":["tabs","http://*/*","notifications"],
-  "web_accessible_resources":[
-    "forces.png",
-    "hackerank.png",
-    "icon.png",
-    "chef.png"
-  ]
+  "permissions":["tabs","*://*.codechef.com/*","*://*.codeforces.com/*","notifications"]
   
 }

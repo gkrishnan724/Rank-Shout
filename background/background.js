@@ -1,13 +1,23 @@
 //Used for sending notifications
 let history = {}; //Object to store history for every ranklists.
-
+let hostToIcon = { // Map to maintain icon url for each platform.
+    "Codechef":"chef.png",
+    "Codeforces":"forces.png"
+}
+console.log(hostToIcon["Codechef"]);
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
-    // chrome.notifications.create({type:'basic',title:'ranklist updated!',iconUrl:'./chef.png',message:"New ranklist fetched"});
+    // chrome.notifications.create({type:'basic',title:'ranklist updated!',iconUrl:"../chef.png",message:"New ranklist fetched",type:'basic'});
     sendResponse({message:'recieved!!'});
     handleChanges(request);
 });
 
 function handleChanges(request){
+
+    let hostNotificationCounts = { //List to keep type of notifications for each platform.
+        "Codechef":{"rise":0,"cross":0,"add":0,"delete":0,"change":false},
+        "Codeforces":{"rise":0,"cross":0,"add":0,"delete":0,"change":false}
+    }
+
     var changes = [];
     var me = request.me;
     let mode = request.mode?request.mode:"ALL";
@@ -53,10 +63,11 @@ function handleChanges(request){
     };
     
     if(changes.length > 0){
-        console.log(changes);
+        
         changes.forEach(function(item,index){
             let options = {type:'basic'};
             if(item.mode == "rise"){
+                
                 let amount = item.prev - item.new;
                 options.title = item.host + " - Someone ranked up!"
                 options.message = item.user + ' ranked up ' + amount + ' ranks to take up the ' + parseInt(item.new + 1) + ' position!'; 
@@ -75,22 +86,78 @@ function handleChanges(request){
                 options.title = item.host + " - User left the ranklist!"
                 options.message = item.user + ' just left the ranklist page';
             }
+            //Increment no of notifications for the particular type and particular platform
+            hostNotificationCounts[item.host][item.mode] += 1;
+            //Indicating that there is a change in the ranklist
+            hostNotificationCounts[item.host]["change"] = true; 
+            //Set Icon for notification
+            options.iconUrl = hostToIcon[item.host];
+            
 
-            if(item.host == 'Codechef'){
-                options.iconUrl = '../chef.png';
+            //Seperate notification for each change if total notifications <= 5
+            if(changes.length <= 5){
+                setTimeout(function(){
+                    //1 Second pause for each notification.
+                    chrome.notifications.create(options,function(){
+                        console.log('Notification sent!');
+                    });
+                },index*1000);
             }
-            else if(item.host == 'Codeforces'){
-                options.iconUrl = '../forces.png';
-            }
-
-            setTimeout(function(){
-                chrome.notifications.create(options,function(){
-                    console.log('Notification sent!');
-                });
-            },index*1000);
+            
         });
 
-        
+        //If more than 5 notifications at a time then print summary for each platform instead.
+        if(changes.length > 5){
+            let index = 0
+            for(let item in hostNotificationCounts){
+                let options;
+                //If there are changes in the host
+                let host = hostNotificationCounts[item];
+                if(host["change"]){
+                    if(mode == "ALL"){
+                        let message = [];
+                        //Find out the changes
+                        for(var key in host){
+                            if(host[key] > 0){
+                                if(key == "add"){
+                                    message.push("New users: "+host["add"])
+                                }
+                                else if(key == "delete"){
+                                    message.push("users gone: "+host["delete"])
+                                }
+                                else if(key == "cross"){
+                                    message.push("people crossed you: "+host["cross"])
+                                }
+                                else if(key == "rise"){
+                                    message.push("users who climbed ranks: "+host["rise"]);
+                                }
+                            }
+                        }
+                        options = {
+                            "title": item + "- Change Summary",
+                            "message": message.toString(),
+                            "type":"basic"
+                        }
+                    }
+                    else{
+                        //Only me
+                        options = {
+                            "title": item + "- Change Summary",
+                            "message":" people crossed you: "+host["cross"],
+                            "type":"basic"
+                        }
+                    }
+                    options.iconUrl = hostToIcon[item];
+                    setTimeout(function(){
+                        chrome.notifications.create(options,function(){
+                            console.log("Notification sent!");
+                        })
+                    },index*1000);
+
+                    index += 1;
+                }
+            }
+        }
     }
 }
 
